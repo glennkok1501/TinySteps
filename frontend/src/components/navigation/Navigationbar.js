@@ -2,7 +2,7 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 
 const Navigationbar = () => {
     return ( 
-        <Navbar expand="lg" bg="primary">
+        <Navbar sticky="top" expand="lg" bg="primary">
       <Container fluid>
         <Navbar.Brand href="#home">Tiny Steps</Navbar.Brand>
 

@@ -16,8 +16,11 @@ const fetchSchoolsData = async (startOffset = "/api/action/datastore_search?reso
                 allSchools = [...allSchools, ...data];
                 // Save each school to the database
                 data.forEach(async (schoolData) => {
-                    const newSchool = new School(schoolData);  // Use SchoolModel to create new documents
-                    await newSchool.save()
+                    if (schoolData.centre_name != "na") {
+                        const newSchool = new School(schoolData);  // Use SchoolModel to create new documents
+                        await newSchool.save()
+                    }
+                    
                 });
 
                 nextOffset = result.data.result._links ? result.data.result._links.next : null;
