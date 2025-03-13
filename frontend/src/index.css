@@ -11,3 +11,25 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.hover {
+  transition: transform .2s
+}
+
+.hover:hover {
+  transform: scale(1.2);
+}
+
+.btn:focus, 
+.btn:active, 
+.btn:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+div.btn:focus, 
+div.btn:active {
+    outline: none !important;
+    box-shadow: none !important;
+}
