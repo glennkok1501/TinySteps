@@ -1,4 +1,5 @@
 import { Container, Nav, Navbar } from "react-bootstrap";
+import LogoutBtn from "./LogoutBtn";
 
 const Navigationbar = () => {
     return ( 
@@ -13,6 +14,8 @@ const Navigationbar = () => {
             <Nav.Link href="#nearbyamenities">Nearby Amenities</Nav.Link>
             <Nav.Link href="#getrecommendations">Get Recommendations</Nav.Link>
           </Nav>
+
+          <LogoutBtn />
       </Container>
     </Navbar>
      );

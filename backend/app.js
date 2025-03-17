@@ -6,16 +6,14 @@ const cookieParser = require('cookie-parser')
 const mongoose = require('mongoose');
 const fetchSchoolsData = require('./api/controllers/GetData');
 const School = require('./models/SchoolModel');
-require("dotenv").config({ path: ".env" })
+require('dotenv').config();
+
 // middleware
 app.use(morgan('dev')) //logging
 app.use(express.urlencoded( {extended: true}))
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({origin:true, credentials:true}))
-
-// imported routes
-const schoolRoutes = require('./api/routes/schoolRoute')
 
 const checkIfSchoolsExistAndFetchData = async () => {
     try {
@@ -57,8 +55,15 @@ const init = async () => {
 
 init()
 
+// imported routes
+const schoolRoutes = require('./api/routes/schoolRoute')
+const authRoutes = require('./api/routes/authRoute')
+
 // routes
 app.use('/schools', schoolRoutes)
+
+app.use('/auth', authRoutes)
+
 
 // unknown requests
 app.use((req, res) => res.send(null))

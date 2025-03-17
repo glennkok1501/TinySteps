@@ -19,7 +19,7 @@ const Home = () => {
             if (result.status === 200) {
                 const data = result.data;
                 dispatch(loadSchools(data)); 
-                setFiltered(data); // ✅ Ensure filtered list updates after fetching
+                setFiltered(data); // 
             }
         } catch (err) {
             console.log("Error fetching data:", err);
