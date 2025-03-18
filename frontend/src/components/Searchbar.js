@@ -7,12 +7,13 @@ const Searchbar = ({ data, setFiltered }) => {
 
     const handleSearchChange = (event) => {
         setText(event);
-        
+        setTimeout(() => {
             setFiltered(
-                data.filter((item) => 
-                    item.centre_name.toLowerCase().includes(event.toLowerCase()) // ✅ Check if item.name exists
+                data.filter((item) =>
+                    item.centre_name.toLowerCase().includes(event.toLowerCase())
                 )
             );
+        }, 1500); // Delay the execution by 2 seconds
     };
 
     return ( 
