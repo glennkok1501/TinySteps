@@ -6,7 +6,9 @@ const ProtectedRoute = ({component: Component, ...options}) => {
     const {auth, isTokenValid} = RequireAuth()
 
     if (!isTokenValid) return (
-        <div className="text-center"><div className="spinner-grow" role="status"></div></div>
+        <div className="position-absolute top-50 start-50">
+            <div className="spinner-border" role="status" />
+        </div>
     )
 
    return (<Route {...options}

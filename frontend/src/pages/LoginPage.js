@@ -1,57 +1,73 @@
-import {useState} from 'react'
-import { useHistory, Link } from 'react-router-dom'
-import axios from 'axios'
+import { useState } from 'react';
+import { useHistory, Link } from 'react-router-dom';
+import axios from 'axios';
 
-const SignupPage = () => {
-
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-
-    const [error, setError] = useState('')
-
-    const [isPending, setIsPending] = useState(false)
-    const history = useHistory()
+const LoginPage = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [isPending, setIsPending] = useState(false);
+    const history = useHistory();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setIsPending(true)
+        setIsPending(true);
 
-        axios.post(`${process.env.REACT_APP_API}/auth/login`, {username, password}, {withCredentials:true})
+        axios.post(`${process.env.REACT_APP_API}/auth/login`, { email, password }, { withCredentials: true })
             .then((res) => {
-                console.log(res.data)
-                if (res.data.auth){
-                    history.push('/')
-                }   else {
-                    setIsPending(false)
-                    setError(res.data.error)
-                    //TODO show error
+                console.log(res.data);
+                if (res.data.auth) {
+                    history.push('/');
+                } else {
+                    setIsPending(false);
+                    setError(res.data.error);
                 }
             })
-            .catch((err) => console.log(err))
-        }
+            .catch((err) => console.log(err));
+    };
 
     return (
-        <div className='container'>
-            <div className='content card'>
-                <h1 className='center'>Login to Your Account</h1>
+        <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+            <div className="card shadow p-4" style={{ width: '30rem' }}>
+                <h1 className="text-center mb-3">
+                    Let's take <span className="text-primary">Tiny Steps</span> together
+                </h1>
                 {error && <div className="alert alert-danger" role="alert">{error}</div>}
                 <form onSubmit={handleSubmit}>
-                    <div>
-                        <label className='form-label'>Username</label>
-                        <input type="text" className="form-control" onChange={(e) => setUsername(e.target.value)}/>
+                    <div className="mb-3">
+                        <label className="form-label">Email Address</label>
+                        <input 
+                            type="email" 
+                            className="form-control" 
+                            placeholder="me@example.com" 
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
                     </div>
-                    <div>
-                        <label className='form-label'>Password</label>
-                        <input type="password" className="form-control" onChange={(e) => setPassword(e.target.value)}/>
+                    <div className="mb-3">
+                        <label className="form-label">Password</label>
+                        <input 
+                            type="password" 
+                            className="form-control" 
+                            placeholder="••••••••" 
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
                     </div>
-                    <div className='center'>
-                        <button className='btn btn-outline-light' disabled={isPending}>Login</button>
+                    <button 
+                        type="submit" 
+                        className="btn btn-primary w-100" 
+                        disabled={isPending}
+                    >
+                        Log in
+                    </button>
+                    <div className='text-center mt-3'>
+                        <Link to="/signup" className='text-muted text-decoration-none'>
+                            Join us now
+                        </Link>
                     </div>
                 </form>
-                <Link to="/signup" className='center'>Sign Up</Link>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default SignupPage;
+export default LoginPage;

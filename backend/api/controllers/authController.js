@@ -15,18 +15,17 @@ const createToken = (id, user, role) => {
 }
 
 const login_post = async (req, res) => {
-    const {username, password} = req.body
+    const {email, password} = req.body
     
     User.findOne({$or: [
-        { username: username },
-        { email: username }
+        { email: email }
     ]})
     .then((user) => {
         if (user) {
             bcrypt.compare(password, user.password)
                 .then((auth) => {
                     if (auth){
-                        const token = createToken(user.id, user.username, user.role)
+                        const token = createToken(user.id, user.username, user.email, user.role)
                         res.cookie('jwt', token, {
                             httpOnly: true,
                             maxAge: 3 * 24 * 60 * 60 * 1000
@@ -45,11 +44,33 @@ const login_post = async (req, res) => {
 
 }
 
+
 const signup_post = async (req, res) => {
 
-    //TODO verification
     const {username, email, password} = req.body
     const role = 'user'
+    var errors = {username: '', email: '', password: ''}
+    var valid = true
+
+    // Check password constraint
+    const passwd_regex = /^(?=.*\w)(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*.,?])[\w\d!@#$%^&*.,?]{8,64}$/;
+    if (!password.match(passwd_regex)) {
+        errors.password = "Password does not meet complexity requirements";
+        valid = false;
+    }
+
+    // Check if the user already exists
+    const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+    if (existingUser) {
+        if (existingUser.username === username) errors.username = "Username already exists";
+        if (existingUser.email === email) errors.email = "Email already exists";
+        valid = false;
+    }
+
+    if (!valid) {
+        return res.send({ "auth": false, "error": errors });
+    }
+
     
     try {
         const user = await User.create({username, email, password, role})
@@ -65,7 +86,7 @@ const signup_post = async (req, res) => {
     }
     catch (err) {
         console.log(err)
-        res.send({"auth":false, "error":errors})
+        res.send({"auth":false})
     }
 }
 
