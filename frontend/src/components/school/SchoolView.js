@@ -14,7 +14,7 @@ const SchoolView = ({data}) => {
                             <div className="col-11">
                     <Link className="text-decoration-none" to={`/school/${data._id}`}>
 
-                                <h3 className="text-black">{data.centre_name}</h3>
+                                <h5 className="text-black">{data.centre_name}</h5>
                                 <p className="text-muted">{`📍 ${data.centre_address}`}</p>
                     </Link>
                             

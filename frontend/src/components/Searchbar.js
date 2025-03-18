@@ -13,7 +13,7 @@ const Searchbar = ({ data, setFiltered }) => {
                     item.centre_name.toLowerCase().includes(event.toLowerCase())
                 )
             );
-        }, 1500); // Delay the execution by 2 seconds
+        }, 1000); // Delay the execution by 1 seconds
     };
 
     return ( 

@@ -14,12 +14,13 @@ const Navigationbar = () => {
     return ( 
         <Navbar sticky="top" expand="lg" bg="primary">
       <Container fluid>
-        <Navbar.Brand href="#home">Tiny Steps</Navbar.Brand>
+        <Link className="navbar-brand">Tiny Steps</Link>
+          
 
           <Nav className="m-auto">
             {
               pages.map((page, index) => (
-                  <Link key={index} to={page.page} className='ms-4 me-4 text-muted text-decoration-none'>{page.title}</Link>
+                  <Link key={index} to={page.page} className='nav-link'>{page.title}</Link>
               ))
             }
             
