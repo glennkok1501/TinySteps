@@ -7,7 +7,7 @@ const FilterRadioBtn = ({option, title, setFilters}) => {
 
     useEffect(() => {
         const ENDPOINT = `http://${window.location.hostname}:8000/schools`;
-            axios.get(`${ENDPOINT}/options?q=${option}`)
+            axios.get(`${ENDPOINT}/options?q=${option}`, {withCredentials: true})
                 .then((res) => {
                     if (res.status === 200) {
                         // console.log(res.data)

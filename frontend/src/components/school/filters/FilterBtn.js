@@ -1,7 +1,7 @@
 import Button from 'react-bootstrap/esm/Button';
 import Modal from 'react-bootstrap/Modal';
 import FilterRadioBtn from './FilterRadioBtn';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const FilterBtn = ({showFilter, setShowFilter, setFiltered, data}) => {
@@ -13,9 +13,9 @@ const FilterBtn = ({showFilter, setShowFilter, setFiltered, data}) => {
         {title: "Transport Provided", key: "provision_of_transport", selected: ''},
     ])
 
-    // useEffect(() => {
-    //     console.log(filters)
-    // }, [filters])
+    useEffect(() => {
+        // console.log(filters)
+    }, [filters])
 
     const handleClose = () => {
         setShowFilter(false)
@@ -25,9 +25,10 @@ const FilterBtn = ({showFilter, setShowFilter, setFiltered, data}) => {
     }
 
     const handleSubmit = () => {
-        axios.get(`${process.env.REACT_APP_API}/schools/filter?food_offered=${filters[0].selected}&second_languages_offered=${filters[1].selected}&spark_certified=${filters[2].selected}&provision_of_transport=${filters[3].selected}`)
+        axios.get(`${process.env.REACT_APP_API}/schools/filter?food_offered=${filters[0].selected}&second_languages_offered=${filters[1].selected}&spark_certified=${filters[2].selected}&provision_of_transport=${filters[3].selected}`, {withCredentials: true})
             .then((res) => {
                 if (res.status === 200) {
+                    console.log(res.data)
                     setFiltered(res.data)
                     handleClose()
                 }
@@ -56,7 +57,7 @@ const FilterBtn = ({showFilter, setShowFilter, setFiltered, data}) => {
                 <Modal.Header closeButton>
                     <Modal.Title>Filter by Preference</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body  style={{ maxHeight: '400px', overflowY: 'auto' }}>
                     {
                         filters.map((f) => (
                             <div className='mb-4' key={f.key}>
