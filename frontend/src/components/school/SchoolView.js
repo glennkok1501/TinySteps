@@ -14,7 +14,7 @@ const SchoolView = ({data}) => {
                 </Link>
                     
                 </div>
-                <div className="card-footer p-3 bg-primary">
+                <div className="card-footer p-3 bg-secondary">
                     <div className="d-flex justify-content-between">
                         <a className="text-muted text-decoration-none" href={`tel:+65${data.centre_contact_no}}`} rel="noreferrer">
                             {`📞 Contact Number: ${data.centre_contact_no}`}

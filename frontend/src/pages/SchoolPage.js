@@ -22,7 +22,7 @@ const SchoolPage = () => {
     return ( 
         <>
             <Navigationbar />
-            <div className="container">
+            <div className="container mt-3">
             <h3>{data.centre_name}</h3>
             <p>{data.centre_address}</p>
 

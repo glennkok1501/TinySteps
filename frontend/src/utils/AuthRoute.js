@@ -11,7 +11,6 @@ const AuthRoute = ({component: Component, ...options}) => {
         // send jwt token to API for verification
         axios.get(`${process.env.REACT_APP_API}/auth/verify`, { withCredentials: true })
         .then((res) => {
-            console.log(res)
             if (res.data) {
                 setAuth(res.data)
             }

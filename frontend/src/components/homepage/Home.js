@@ -4,12 +4,14 @@ import SchoolsList from "../school/SchoolsList";
 import { useDispatch, useSelector } from "react-redux";
 import { loadSchools, removeSchools } from "../../features/school/schoolSlice";
 import Searchbar from "../Searchbar";
+import FilterBtn from "../school/filters/FilterBtn";
 
 const Home = () => {
     const ENDPOINT = `http://${window.location.hostname}:8000/schools`;
 
     const schools = useSelector(state => state.school.value);
     const [filtered, setFiltered] = useState([]);
+    const [showFilter, setShowFilter] = useState(false)
 
     const dispatch = useDispatch();
 
@@ -35,6 +37,12 @@ const Home = () => {
     return ( 
         <div>
             <Searchbar data={schools} setFiltered={setFiltered} />
+            
+            <div className="mt-3">
+            <FilterBtn showFilter={showFilter} setShowFilter={setShowFilter} setFiltered={setFiltered} data={schools} />
+
+            </div>
+
             <SchoolsList data={filtered} />
         </div>
     );

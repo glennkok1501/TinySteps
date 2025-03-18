@@ -1,23 +1,28 @@
-import {  useState } from "react";
+import { useEffect, useState } from "react";
 import Loading from "../Loading";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import SchoolView from "./SchoolView";
 
-const SchoolsList = ({data}) => {
-
+const SchoolsList = ({ data }) => {
     const [isLoading, setIsLoading] = useState(true);
 
-    return ( 
+    // useEffect(() => {
+    //     console.log(data);
+    // }, [data]);
+
+    // Check if data is defined and an array
+    const safeData = Array.isArray(data) ? data : [];
+
+    return (
         <div>
-            
             <InfiniteScroll
-                dataLength={data.length}
+                dataLength={safeData.length}
                 loader={<Loading isLoading={isLoading} setIsLoading={setIsLoading} />}
-                >
+            >
                 {
-                    data.map(school => (
+                    safeData.map((school) => (
                         <div key={school._id}>
-                            {school.centre_name !== "na" && <SchoolView data={school } />}
+                            {school.centre_name !== "na" && <SchoolView data={school} />}
                         </div>
                     ))
                 }

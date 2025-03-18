@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 const RequireAuth = () => {
-    console.log(`${process.env.REACT_APP_API}/auth/verify`)
 
     const endpoint = `${process.env.REACT_APP_API}/auth/verify`
 
