@@ -27,7 +27,7 @@ const LoginPage = () => {
     };
 
     return (
-        <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+        <div className="d-flex justify-content-center align-items-center min-vh-100 bg-secondary">
             <div className="card shadow p-4" style={{ width: '30rem' }}>
                 <h1 className="text-center mb-3">
                     Let's take <span className="text-primary">Tiny Steps</span> together

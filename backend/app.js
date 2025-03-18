@@ -11,7 +11,7 @@ require('dotenv').config();
 // middleware
 app.use(morgan('dev')) //logging
 app.use(express.urlencoded( {extended: true}))
-app.use(express.json());
+app.use(express.json()); 
 app.use(cookieParser());
 app.use(cors({origin:true, credentials:true}))
 

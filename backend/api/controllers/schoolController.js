@@ -1,8 +1,18 @@
+const { verifyJWT } = require('../../config/AuthMiddleware')
 const School = require('../../models/SchoolModel')
+const User = require('../../models/UserModel')
+
 
 const get_schools = async (req, res) => {
     try{
-        const schools = await School.find().sort('_id')
+        var schools = await School.find().sort('_id')
+        // console.log(verifyJWT(req.cookies.jwt))
+        const userId = verifyJWT(req.cookies.jwt).id
+        const user_bookmarks = await User.findOne({_id: userId}).select('bookmarks')
+        schools = schools.map(school => ({
+            ...school.toObject(), // Convert Mongoose document to plain object
+            bookmarked: user_bookmarks.bookmarks.includes(school._id.toString()) // Check if school is bookmarked
+        }));
         res.send(schools)
     }
     catch (err) {
@@ -42,8 +52,41 @@ const get_filter = async (req, res) => {
     }
 }
 
+const post_bookmark = async (req, res) => {
+    const userId = verifyJWT(req.cookies.jwt).id
+    const {schoolId} = req.body
+    try {
+        // Find user by ID
+        const user = await User.findById(userId);
+        
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        // Check if schoolId is already in bookmarks array
+        const index = user.bookmarks.indexOf(schoolId);
+        
+        if (index === -1) {
+            // If schoolId is not in the bookmarks array, add it
+            user.bookmarks.push(schoolId);
+        } else {
+            // If schoolId is already in the bookmarks array, remove it
+            user.bookmarks.splice(index, 1);
+        }
+
+        // Save updated user document
+        await user.save();
+        res.send(true)
+    } catch (err) {
+        console.log(err)
+        res.send(false)
+    }
+
+}
+
 module.exports = {
     get_schools,
     get_options,
-    get_filter
+    get_filter,
+    post_bookmark
 }

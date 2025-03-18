@@ -18,8 +18,8 @@ const Navigationbar = () => {
 
           <Nav className="m-auto">
             {
-              pages.map((page) => (
-                <Nav.Link>
+              pages.map((page, index) => (
+                <Nav.Link key={index}>
                   <Link to={page.page} className='text-muted text-decoration-none'>{page.title}</Link>
                 </Nav.Link>
               ))

@@ -11,11 +11,18 @@ export const schoolSlice = createSlice({
     },
     removeSchools: state => {
       state.value = []
+    },
+    bookmarkSchool: (state, action) => {
+      const schoolId = action.payload;
+      const school = state.value.find(s => s._id === schoolId);
+      if (school) {
+        school.bookmarked = !school.bookmarked; // Toggle bookmarked status
+      }
     }
   }
 })
 
 // Action creators are generated for each case reducer function
-export const { loadSchools, removeSchools } = schoolSlice.actions
+export const { loadSchools, removeSchools, bookmarkSchool  } = schoolSlice.actions
 
 export default schoolSlice.reducer

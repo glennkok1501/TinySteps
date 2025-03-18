@@ -1,7 +1,7 @@
 import Button from 'react-bootstrap/esm/Button';
 import Modal from 'react-bootstrap/Modal';
 import FilterRadioBtn from './FilterRadioBtn';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
 const FilterBtn = ({showFilter, setShowFilter, setFiltered, data}) => {
@@ -13,9 +13,9 @@ const FilterBtn = ({showFilter, setShowFilter, setFiltered, data}) => {
         {title: "Transport Provided", key: "provision_of_transport", selected: ''},
     ])
 
-    useEffect(() => {
-        console.log(filters)
-    }, [filters])
+    // useEffect(() => {
+    //     console.log(filters)
+    // }, [filters])
 
     const handleClose = () => {
         setShowFilter(false)

@@ -36,7 +36,7 @@ const SignupPage = () => {
     };
 
     return (
-        <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+        <div className="d-flex justify-content-center align-items-center min-vh-100 bg-secondary">
             <div className="card shadow p-4" style={{ width: '30rem' }}>
                 <h1 className="text-center mb-3">Create an Account</h1>
                 {usernameErr && <div className="alert alert-danger" role="alert">{usernameErr}</div>}

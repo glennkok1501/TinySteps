@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import SchoolDetailsCard from "../components/school/SchoolDetailsCard";
 import Navigationbar from "../components/navigation/Navigationbar";
 import GoogleMapEmbed from "../components/GoogleMapEmbed";
+import Bookmark from "../components/school/Bookmark";
 
 const SchoolPage = () => {
     const { id } = useParams();
@@ -22,15 +23,31 @@ const SchoolPage = () => {
     return ( 
         <>
             <Navigationbar />
+            
             <div className="container mt-3">
-            <h3>{data.centre_name}</h3>
-            <p>{data.centre_address}</p>
+            <div className="row">
+                <div className="col-11">
+                <h3>{data.centre_name}</h3>
+                <p>{data.centre_address}</p>
+                </div>
+                <div className="col-1">
+                <div className="btn d-flex justify-content-end">
+                <Bookmark schoolId={data._id} marked={data.bookmarked} />
+
+                </div>
+
+
+                </div>
+            </div>
+            
+
 
             <div className="row">
                 <div className="col">
                     <p className="text-muted">Organisation Type: {data.organisation_description}</p>
                 </div>
                 <div className="col">
+
                     <a className="text-muted me-5" href={`tel:+65${data.centre_contact_no}`} rel="noreferrer">
                         <Icon path={mdiPhone} size={0.8} /> {data.centre_contact_no}
                     </a>

@@ -17,16 +17,21 @@ const Home = () => {
 
     const fetchData = async () => {
         try {
-            const result = await axios.get(ENDPOINT);
+            const result = await axios.get(ENDPOINT, {withCredentials: true});
             if (result.status === 200) {
                 const data = result.data;
+                // console.log(data)
                 dispatch(loadSchools(data)); 
-                setFiltered(data); // 
+                // setFiltered(data); // 
             }
         } catch (err) {
             console.log("Error fetching data:", err);
         }
     };
+
+    useEffect(() => {
+        setFiltered(schools)
+    }, [schools])
 
     useEffect(() => {
         dispatch(removeSchools()); // Clears Redux state before fetching new data
@@ -35,15 +40,21 @@ const Home = () => {
     }, []);
 
     return ( 
-        <div>
+        <div>            
+            {schools.length > 0 ?
+            <>
             <Searchbar data={schools} setFiltered={setFiltered} />
-            
+
             <div className="mt-3">
             <FilterBtn showFilter={showFilter} setShowFilter={setShowFilter} setFiltered={setFiltered} data={schools} />
 
             </div>
 
             <SchoolsList data={filtered} />
+            </>
+            :
+            <div className="text-center mt-5"><div className="spinner-border" role="status"></div></div>
+             }
         </div>
     );
 };
