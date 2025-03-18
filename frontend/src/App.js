@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage';
 import ProtectedRoute from './utils/ProtectedRoute';
 import AuthRoute from './utils/AuthRoute';
 import SignupPage from './pages/SignupPage';
+import BookmarksPage from './pages/BookmarksPage';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Switch>
         <ProtectedRoute exact path='/' component={HomePage} />
         <ProtectedRoute path ="/school/:id" component={SchoolPage}/>
+        <ProtectedRoute path ="/bookmarks" component={BookmarksPage}/>
 
         <AuthRoute path="/Signup" component={SignupPage}/>
         <AuthRoute path ="/login" component={LoginPage}/>
