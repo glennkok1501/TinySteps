@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Loading from "../Loading";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import SchoolView from "./SchoolView";
