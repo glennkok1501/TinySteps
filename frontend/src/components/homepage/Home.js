@@ -8,7 +8,7 @@ import FilterBtn from "../school/filters/FilterBtn";
 
 const Home = () => {
     const ENDPOINT = `http://${window.location.hostname}:8000/schools`;
-
+    const user = useSelector(state => state.user.value).payload 
     const schools = useSelector(state => state.school.value);
     const [filtered, setFiltered] = useState([]);
     const [showFilter, setShowFilter] = useState(false)
@@ -45,7 +45,8 @@ const Home = () => {
             <>
             <Searchbar data={schools} setFiltered={setFiltered} />
 
-            <div className="mt-3">
+            <div className="mt-3 d-flex justify-content-between align-items-center">
+            <h6>Welcome, {user.username}</h6>
             <FilterBtn showFilter={showFilter} setShowFilter={setShowFilter} setFiltered={setFiltered} data={schools} />
 
             </div>
