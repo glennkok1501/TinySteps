@@ -1,109 +1,126 @@
 import Navigationbar from "../components/navigation/Navigationbar";
-import React, { useState, useEffect } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import React, { useState, useEffect, useRef } from "react";
 
 const AssistantPage = () => {
-
-    const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [socket, setSocket] = useState(null);
-  const [loading, setLoading] = useState(false); // New state for loading
-  const [userId, setUserId] = useState(null); // Track user ID
+  const [loading, setLoading] = useState(false);
+  const [connected, setConnected] = useState(false);
+  const [error, setError] = useState(false);
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     const ws = new WebSocket(process.env.REACT_APP_AI);
 
     ws.onopen = () => {
       console.log("Connected to WebSocket");
+      setConnected(true);
+      setError(false);
     };
 
     ws.onmessage = (event) => {
-      const messageData = JSON.parse(event.data);
-      if (messageData.user_id) {
-        // Store user_id when received
-        setUserId(messageData.user_id);
+      try {
+        const messageData = JSON.parse(event.data);
+        setMessages((prev) => [...prev, messageData]);
+      } catch (err) {
+        console.error("Error parsing message:", err);
+        setError(true);
       }
-      setMessages((prev) => [...prev, messageData]);
-      setLoading(false); // Hide loading when response is received
+      setLoading(false);
     };
 
-    ws.onclose = (e) => {
-      console.log("WebSocket closed:", e);
+    ws.onerror = (err) => {
+      console.error("WebSocket Error:", err);
+      setError(true);
+      setConnected(false);
+    };
+
+    ws.onclose = () => {
+      console.log("WebSocket closed");
+      setConnected(false);
     };
 
     setSocket(ws);
-    return () => {
-      ws.close();
-    };
+    return () => ws.close();
   }, []);
+
 
   const sendMessage = () => {
     if (socket && input.trim()) {
       const userMessage = { message: input };
       setMessages((prev) => [...prev, { role: "user", message: input }]);
+
       setInput("");
-      setLoading(true); // Set loading to true when message is sent
+      setLoading(true);
       socket.send(JSON.stringify(userMessage));
     }
   };
 
-  const handleKeyPress = (e) => {
-    if (e.nativeEvent.key === "Enter") {
-      sendMessage();
+  useEffect(() => {
+    if (messages.length > 1) {
+      setTimeout(() => messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
     }
+  }, [messages]);
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") sendMessage();
   };
 
-  const styles = {
-    container: { flex: 1, padding: 10 },
-    input: { height: 40, borderColor: "gray", borderWidth: 1, marginBottom: 10, paddingHorizontal: 10 },
-    aiText: { backgroundColor: "#e1e1e1", padding: 10, marginVertical: 5 },
-    userText: { backgroundColor: "#add8e6", padding: 10, marginVertical: 5, alignSelf: "flex-end" },
-    loadingContainer: {
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center",
-      marginVertical: 10,
-    },
-    loadingText: {
-      marginLeft: 10,
-      fontSize: 16,
-      color: "#0000ff",
-    },
-  }
-
-  // Render the chat UI
   return (
-    <>
-    <Navigationbar />
-    <div>
-        {
-            messages.map((m, index) => (
-                <div key={index} style={m.role === "AI" ? styles.aiText : styles.userText}>
-                    {m.message}
-                </div>
-            ))
-        }
+    <div className="assistant">
+      <Navigationbar />
 
-    </div>
-      <input
-        style={styles.input}
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        placeholder="Type a message..."
-        editable={!loading} // Disable input when loading
-        onKeyDown={handleKeyPress} // Listen for the Enter key press
-      />
-      <div disabled={loading} className="btn-primary" onClick={sendMessage}>
-        Send
-      </div>
-      
-      {/* Show loading spinner if loading is true */}
-      {loading && (
-        <div className="text-center"><div className="spinner-grow" role="status"></div></div>
+      {/* Error Message */}
+      {error && (
+        <p className="text-center mt-5 text-danger">
+          Sorry, AI Assistant is temporarily unavailable. Please try again later.
+        </p>
       )}
-    </>
-    
+
+      {/* Chat Interface */}
+      {!error && connected && (
+        <div className="container d-flex flex-column vh-100 border rounded bg-light">
+          {/* Messages Container (Scrollable without visible scrollbar) */}
+          <div className="flex-grow-1 overflow-hidden p-3 d-flex flex-column">
+            {messages.map((m, index) => (
+              <div
+                key={index}
+                className={`mb-2 p-3 rounded w-75 ${
+                  m.role === "AI" ? "bg-secondary text-black align-self-start" : "bg-dark text-white align-self-end"
+                }`}
+              >
+                {m.message}
+              </div>
+            ))}
+            {loading && (
+              <div className="d-flex justify-content-center align-items-center">
+                <div className="spinner-border text-primary" role="status"></div>
+                <span className="ms-2">Thinking...</span>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* Fixed Input Box */}
+          <div className="d-flex align-items-center border-top p-2 bg-white position-sticky bottom-0 w-100">
+            <input
+              type="text"
+              className="form-control me-2"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Ask me anything..."
+              disabled={loading}
+              onKeyDown={handleKeyPress}
+            />
+            <button className="btn btn-primary" onClick={sendMessage} disabled={loading}>
+              Send
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
- 
+
 export default AssistantPage;

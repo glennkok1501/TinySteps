@@ -75,11 +75,12 @@ async def websocket_endpoint(websocket: WebSocket):
                 # Generate the AI's response using asyncio.to_thread to avoid blocking
                 ai_prompt = f"""
                 You are an AI assistant helping a young parent with limited knowledge of preschools or kindergartens in Singapore context only. 
+                Refrain from giving advise that are irrelevant to preschools or kindergartens in Singapore. Every question asked is regarding preschools/Kindergartens in Singapore.
                 Based on the user's message, provide helpful advice and recommendations considering factors like budget, income, location, curriculum, and the child's needs.
 
                 The user's message: "{user_message}"
 
-                Provide a friendly, clear, and concise response in one paragraph. You can suggest questions for the user to ask schools and help them make a more informed decision.
+                Provide a friendly, clear, and concise response. You can suggest questions for the user to ask schools and help them make a more informed decision.
                 """
 
                 # Use asyncio.to_thread to avoid blocking the event loop
