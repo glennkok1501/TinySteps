@@ -14,7 +14,7 @@ const Navigationbar = () => {
     return ( 
         <Navbar sticky="top" expand="lg" bg="primary">
       <Container fluid>
-        <Link className="navbar-brand">Tiny Steps</Link>
+        <Link className="navbar-brand" to={pages[0].page}>Tiny Steps</Link>
           
 
           <Nav className="m-auto">

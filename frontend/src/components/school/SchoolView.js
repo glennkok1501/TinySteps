@@ -2,12 +2,14 @@ import { mdiOpenInNew } from "@mdi/js";
 import Icon from "@mdi/react";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import Bookmark from "./Bookmark";
+import ImageHandler from "../../utils/ImageHandler";
 
 const SchoolView = ({data}) => {
     
     return (
             
-            <div className="card m-4">
+            <div className="card rounded m-4">
+                <ImageHandler />
                 <div className="card-body p-4">
                     <div className="row">
 

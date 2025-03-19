@@ -1,3 +1,5 @@
+// docker run --name TinyStepsDB -p 27017:27017 -d mongo
+
 const express = require('express')
 const app = express();
 const cors = require('cors')
@@ -35,7 +37,6 @@ const checkIfSchoolsExistAndFetchData = async () => {
 };
 
 // connect to database
-// docker run --name TinyStepsDB -p 27017:27017 -d mongo
 const init = async () => {
     try {
         mongoose.set('bufferCommands', false)
@@ -49,7 +50,7 @@ const init = async () => {
         console.log(`Service is ready to listen on port ${process.env.PORT}`)
     }
     catch(err){
-        console.log(err)
+        console.log("Error connecting to database")
     }
 }
 
