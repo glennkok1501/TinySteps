@@ -1,6 +1,14 @@
 const axios = require('axios');
 const School = require('../../models/SchoolModel')
 
+const calStockImgIndex = (nums) => {
+    var total = 0
+    for (var i = 0; i < nums.length; i++) {
+        total += parseInt(nums[i])
+    }
+    return total % 11
+}
+
 const fetchSchoolsData = async (startOffset = "/api/action/datastore_search?resource_id=d_696c994c50745b079b3684f0e90ffc53") => {
     const ENDPOINT = "https://data.gov.sg";
     let nextOffset = startOffset;
@@ -17,7 +25,7 @@ const fetchSchoolsData = async (startOffset = "/api/action/datastore_search?reso
                 // Save each school to the database
                 data.forEach(async (schoolData) => {
                     if (schoolData.centre_name != "na") {
-                        const newSchool = new School(schoolData);  // Use SchoolModel to create new documents
+                        const newSchool = new School({...schoolData, thumbnail: calStockImgIndex(schoolData.postal_code)});  // Use SchoolModel to create new documents
                         await newSchool.save()
                     }
                     

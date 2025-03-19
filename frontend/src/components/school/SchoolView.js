@@ -2,14 +2,19 @@ import { mdiOpenInNew } from "@mdi/js";
 import Icon from "@mdi/react";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import Bookmark from "./Bookmark";
-import ImageHandler from "../../utils/ImageHandler";
+import ImageHandler from "./ImageHandler";
 
 const SchoolView = ({data}) => {
-    
+    const HEIGHT = 250
+
     return (
-            
-            <div className="card rounded m-4">
-                <ImageHandler />
+        <div className="row mb-5 mt-3">
+            <div className="col-8">
+                <ImageHandler height={HEIGHT} index={parseInt(data.thumbnail)} />
+
+            </div>
+            <div className="col-4">
+            <div className="card rounded" style={{height: HEIGHT}}>
                 <div className="card-body p-4">
                     <div className="row">
 
@@ -34,14 +39,19 @@ const SchoolView = ({data}) => {
                 <div className="card-footer p-3 bg-secondary">
                     <div className="d-flex justify-content-between">
                         <a className="text-muted text-decoration-none" href={`tel:+65${data.centre_contact_no}}`} rel="noreferrer">
-                            {`📞 Contact Number: ${data.centre_contact_no}`}
+                            {`📞 ${data.centre_contact_no}`}
                         </a>
                         {data.centre_website !== "na" && <a className="text-muted  text-decoration-none" href={`https://${data.centre_website}`} rel="noreferrer" target="_blank">
-                            Check out website <Icon size={0.8} path={mdiOpenInNew} />
+                            Website <Icon size={0.8} path={mdiOpenInNew} />
                         </a>}
                     </div>
                 </div>
             </div>
+            </div>
+                
+        </div>
+            
+            
         
      );
 }
