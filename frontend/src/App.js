@@ -6,6 +6,7 @@ import ProtectedRoute from './utils/ProtectedRoute';
 import AuthRoute from './utils/AuthRoute';
 import SignupPage from './pages/SignupPage';
 import BookmarksPage from './pages/BookmarksPage';
+import AssistantPage from './pages/AssistantPage';
 
 function App() {
   return (
@@ -14,6 +15,8 @@ function App() {
         <ProtectedRoute exact path='/' component={HomePage} />
         <ProtectedRoute path ="/school/:id" component={SchoolPage}/>
         <ProtectedRoute path ="/bookmarks" component={BookmarksPage}/>
+        <ProtectedRoute path ="/assistant" component={AssistantPage}/>
+
 
         <AuthRoute path="/Signup" component={SignupPage}/>
         <AuthRoute path ="/login" component={LoginPage}/>

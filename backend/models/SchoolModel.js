@@ -73,6 +73,9 @@ const schoolSchema = new Schema({
     remarks: {
         type:String
     },
+    thumbnail: {
+        type: String
+    }
     
 },{timestamps: true});
 

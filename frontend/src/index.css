@@ -35,3 +35,21 @@ div.btn:active {
     outline: none !important;
     box-shadow: none !important;
 }
+.assistant {
+  .flex-grow-1 {
+    overflow-y: auto !important;
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+    -ms-overflow-style: none; /* Hide scrollbar for IE/Edge */
+  }
+  
+  .flex-grow-1::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome, Safari */
+  }
+
+  .position-sticky {
+    bottom: 0;
+    background: white;
+    z-index: 1000;
+  }
+}
+
