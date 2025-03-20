@@ -1,6 +1,4 @@
 fastapi
 uvicorn
 websockets
-llama3
 ollama
-pymongo
