@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  frontend:
+    build: ./frontend
+    restart: always
+    ports:
+      - "80:80"
+    stdin_open: true
+    tty: true
+
+  backend:
+    build: ./backend
+    restart: always
+    ports:
+      - "8000:8000"
+
+  ai:
+    build: ./ai
+    restart: always
+    ports:
+      - "8080:8080"
+
+  database:
+    image: mongo:latest
+    container_name: TinyStepsDB
+    restart: always
+    ports:
+      - "27017:27017"
