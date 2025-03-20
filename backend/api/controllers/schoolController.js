@@ -52,6 +52,31 @@ const get_filter = async (req, res) => {
     }
 }
 
+const get_search = async (req, res) => {
+    try{
+        const q = req.query.q;
+
+        if (!q) return res.status(400).json({ message: "Query parameter is required" });
+
+        const words = q.split(" ");
+
+        const searchConditions = words.map(word => ({
+            $or: [
+                { centre_name: { $regex: word, $options: "i" } }, // Match in name
+                { centre_address: { $regex: word, $options: "i" } } // Match in address
+            ]
+        }));
+
+
+        const searchedSchools = await School.find({ $and: searchConditions });
+        res.send(searchedSchools)
+    }
+    catch (err) {
+        console.log(err)
+    }
+    
+}
+
 const post_bookmark = async (req, res) => {
     const userId = verifyJWT(req.cookies.jwt).id
     const {schoolId} = req.body
@@ -88,5 +113,6 @@ module.exports = {
     get_schools,
     get_options,
     get_filter,
-    post_bookmark
+    post_bookmark,
+    get_search
 }

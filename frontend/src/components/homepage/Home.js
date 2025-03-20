@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import SchoolsList from "../school/SchoolsList";
 import { useDispatch, useSelector } from "react-redux";
 import { loadSchools, removeSchools } from "../../features/school/schoolSlice";
-import Searchbar from "../Searchbar";
+import Searchbar from "./Searchbar";
 import FilterBtn from "../school/filters/FilterBtn";
 
 const Home = () => {
