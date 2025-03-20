@@ -109,10 +109,24 @@ const post_bookmark = async (req, res) => {
 
 }
 
+const get_school = async (req, res) => {
+    try {
+        const id = req.params.id
+        const data = await School.findById(id)
+
+        res.send(data)
+    }
+
+    catch (err) {
+        console.log(err)
+    }
+}
+
 module.exports = {
     get_schools,
     get_options,
     get_filter,
     post_bookmark,
-    get_search
+    get_search,
+    get_school
 }

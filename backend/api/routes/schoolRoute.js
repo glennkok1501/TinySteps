@@ -5,6 +5,8 @@ const router = express.Router()
 
 router.get('/', schoolController.get_schools)
 
+router.get('/:id', requireAuth, schoolController.get_school)
+
 router.get('/options', requireAuth, schoolController.get_options)
 
 router.get('/filter', requireAuth, schoolController.get_filter)
