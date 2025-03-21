@@ -74,7 +74,7 @@ const signup_post = async (req, res) => {
     
     try {
         const user = await User.create({username, email, password, role})
-        console.log(user)
+        // console.log(user)
         if (user) {
             const token = createToken(user._id, user.username, role)
             res.cookie('jwt', token, {

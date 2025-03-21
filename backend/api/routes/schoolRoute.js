@@ -15,9 +15,4 @@ router.get('/:id', requireAuth, schoolController.get_school)
 
 router.post('/bookmark', requireAuth, schoolController.post_bookmark)
 
-
-
-
-
-
 module.exports = router
