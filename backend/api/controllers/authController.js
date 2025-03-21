@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt');
 
 // create token
 const createToken = (id, user, role) => {
-    console.log(process.env.JWT)
+    // console.log(process.env.JWT)
     return jwt.sign({id, user, role}, process.env.JWT, {
         expiresIn: 3 * 24 * 60 * 60,
     })
