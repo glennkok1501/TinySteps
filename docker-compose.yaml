@@ -8,18 +8,26 @@ services:
       - "80:80"
     stdin_open: true
     tty: true
+    networks:
+      - tinysteps-network
 
   backend:
     build: ./backend
     restart: always
     ports:
       - "8000:8000"
+    depends_on:
+      - database
+    networks:
+      - tinysteps-network
 
   ai:
     build: ./ai
     restart: always
     ports:
       - "8080:8080"
+    networks:
+      - tinysteps-network
 
   database:
     image: mongo:latest
@@ -27,3 +35,9 @@ services:
     restart: always
     ports:
       - "27017:27017"
+    networks:
+      - tinysteps-network
+
+networks:
+  tinysteps-network:
+    driver: bridge
