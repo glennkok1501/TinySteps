@@ -42,6 +42,12 @@ const BookmarksPage = () => {
         <div className="layout-container">
             <Sidebar />
             <main className="main-content">
+                <div className="hero-section">
+                    <div className="container text-center">
+                        <h1 className="display-4 mb-3">Bookmarks</h1>
+                        <p className="lead">Shortlist your options and make good decisions</p>
+                    </div>
+                </div>
                 <div className="container mt-5">
                     {bookmarks.length > 0 ?
                         <SchoolsList data={bookmarks} />

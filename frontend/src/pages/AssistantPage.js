@@ -67,10 +67,6 @@ const AssistantPage = () => {
     }
   }, [messages]);
 
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") sendMessage(input);
-  };
-
   const handleSubmit = () => {
     sendMessage(input);
   };
@@ -88,11 +84,12 @@ const AssistantPage = () => {
         {!error && connected && (
           <div className="chat-container">
             {/* Welcome Message */}
-            <div className="welcome-banner">
-              <h1 className="display-6 mb-3">AI Assistant</h1>
-              <p className="text-muted">Get personalized help finding the perfect preschool for your child</p>
+            <div className="hero-section">
+                <div className="container text-center">
+                    <h1 className="display-4 mb-3">AI Assistant</h1>
+                    <p className="lead">Get personalized help finding the perfect preschool for your child</p>
+                </div>
             </div>
-
             {/* Messages Area */}
             <div className="messages-container">
               {messages.map((m, index) => (
@@ -153,8 +150,6 @@ const AssistantPage = () => {
                 </button>
               </div>
             </div>
-
-            
           </div>
         )}
       </main>
