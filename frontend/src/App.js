@@ -7,7 +7,7 @@ import AuthRoute from './utils/AuthRoute';
 import SignupPage from './pages/SignupPage';
 import BookmarksPage from './pages/BookmarksPage';
 import AssistantPage from './pages/AssistantPage';
-
+import FinancialSupportPage from './pages/FinancialSupportPage';
 function App() {
   return (
     <BrowserRouter>
@@ -16,7 +16,7 @@ function App() {
         <ProtectedRoute path ="/school/:id" component={SchoolPage}/>
         <ProtectedRoute path ="/bookmarks" component={BookmarksPage}/>
         <ProtectedRoute path ="/assistant" component={AssistantPage}/>
-
+        <ProtectedRoute path ="/financialsupport" component={FinancialSupportPage}/>
 
         <AuthRoute path="/Signup" component={SignupPage}/>
         <AuthRoute path ="/login" component={LoginPage}/>

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import axios from 'axios';
+import { Icon } from '@mdi/react';
+import { mdiEmail, mdiLock } from '@mdi/js';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -27,44 +29,75 @@ const LoginPage = () => {
     };
 
     return (
-        <div className="d-flex justify-content-center align-items-center min-vh-100 bg-secondary">
-            <div className="card shadow p-4" style={{ width: '30rem' }}>
-                <h1 className="text-center mb-3">
-                    Let's take <span className="text-primary">Tiny Steps</span> together
-                </h1>
-                {error && <div className="alert alert-danger" role="alert">{error}</div>}
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-3">
-                        <label className="form-label">Email Address</label>
-                        <input 
-                            type="email" 
-                            className="form-control" 
-                            placeholder="me@example.com" 
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
+        <div className="auth-page">
+            <div className="auth-container">
+                <div className="auth-card">
+                    <div className="auth-header text-center">
+                        <h1 className="brand-title">Tiny Steps</h1>
+                        <p className="text-muted">Welcome back! Let's find the perfect preschool.</p>
                     </div>
-                    <div className="mb-3">
-                        <label className="form-label">Password</label>
-                        <input 
-                            type="password" 
-                            className="form-control" 
-                            placeholder="••••••••" 
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                    </div>
-                    <button 
-                        type="submit" 
-                        className="btn btn-primary w-100" 
-                        disabled={isPending}
-                    >
-                        Log in
-                    </button>
-                    <div className='text-center mt-3'>
-                        <Link to="/signup" className='text-muted text-decoration-none'>
-                            Join us now
-                        </Link>
-                    </div>
-                </form>
+
+                    {error && (
+                        <div className="alert alert-danger" role="alert">
+                            {error}
+                        </div>
+                    )}
+
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-4">
+                            <label className="form-label">Email Address</label>
+                            <div className="input-group">
+                                <span className="input-group-text">
+                                    <Icon path={mdiEmail} size={0.8} />
+                                </span>
+                                <input 
+                                    type="email" 
+                                    className="form-control" 
+                                    placeholder="you@example.com" 
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div className="mb-4">
+                            <label className="form-label">Password</label>
+                            <div className="input-group">
+                                <span className="input-group-text">
+                                    <Icon path={mdiLock} size={0.8} />
+                                </span>
+                                <input 
+                                    type="password" 
+                                    className="form-control" 
+                                    placeholder="••••••••" 
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <button 
+                            type="submit" 
+                            className="btn btn-primary w-100 mb-3" 
+                            disabled={isPending}
+                        >
+                            {isPending ? (
+                                <>
+                                    <span className="spinner-border spinner-border-sm me-2" />
+                                    Logging in...
+                                </>
+                            ) : 'Log in'}
+                        </button>
+
+                        <div className="text-center">
+                            <Link to="/signup" className="auth-link">
+                                Don't have an account? Sign up
+                            </Link>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     );
