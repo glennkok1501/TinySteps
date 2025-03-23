@@ -1,5 +1,6 @@
 import Navigationbar from "../components/navigation/Navigationbar";
 import React, { useState, useEffect, useRef } from "react";
+import AiModal from "../components/assistant/AiModal";
 
 const AssistantPage = () => {
   const [messages, setMessages] = useState([]);
@@ -9,6 +10,7 @@ const AssistantPage = () => {
   const [connected, setConnected] = useState(false);
   const [error, setError] = useState(false);
   const messagesEndRef = useRef(null);
+  const [showRec, setShowRec] = useState(false)
 
   useEffect(() => {
     const ws = new WebSocket(process.env.REACT_APP_AI);
@@ -46,10 +48,10 @@ const AssistantPage = () => {
   }, []);
 
 
-  const sendMessage = () => {
-    if (socket && input.trim()) {
-      const userMessage = { message: input };
-      setMessages((prev) => [...prev, { role: "user", message: input }]);
+  const sendMessage = (text) => {
+    if (socket && text.trim()) {
+      const userMessage = { message: text };
+      setMessages((prev) => [...prev, { role: "user", message: text }]);
 
       setInput("");
       setLoading(true);
@@ -64,7 +66,7 @@ const AssistantPage = () => {
   }, [messages]);
 
   const handleKeyPress = (e) => {
-    if (e.key === "Enter") sendMessage();
+    if (e.key === "Enter") sendMessage(input);
   };
 
   return (
@@ -113,7 +115,8 @@ const AssistantPage = () => {
               disabled={loading}
               onKeyDown={handleKeyPress}
             />
-            <button className="btn btn-primary" onClick={sendMessage} disabled={loading}>
+            <AiModal showModal={showRec} setShowModal={setShowRec} sendMessage={sendMessage} />
+            <button className="btn btn-primary" onClick={() => sendMessage(input)} disabled={loading}>
               Send
             </button>
           </div>
