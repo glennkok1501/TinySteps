@@ -1,61 +1,43 @@
-import { mdiOpenInNew } from "@mdi/js";
+import { Link } from "react-router-dom";
+import { mdiPhone, mdiMapMarker } from "@mdi/js";
 import Icon from "@mdi/react";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
-import Bookmark from "./Bookmark";
 import ImageHandler from "./ImageHandler";
 
-const SchoolView = ({data}) => {
-    const HEIGHT = 250
-
+const SchoolView = ({school}) => {
     return (
-        <div>
-            <div className="row mb-5 mt-3 m-0">
-                <div className="col-8">
-                    <ImageHandler height={HEIGHT} index={parseInt(data.thumbnail)} />
-
-                </div>
-                <div className="col-4">
-                <div className="card rounded" style={{height: HEIGHT}}>
-                    <div className="card-body">
-                        <div className="row">
-
-                                <div className="col-11">
-                        <Link className="text-decoration-none" to={`/school/${data._id}`}>
-
-                                    <h5 className="text-black">{data.centre_name}</h5>
-                                    <p className="text-muted">{`📍 ${data.centre_address}`}</p>
+        <div className="card h-100 school-card">
+            <ImageHandler height={120} index={parseInt(school.thumbnail)} />
+            <div className="card-body">
+                <div className="d-flex justify-content-between align-items-start mb-2">
+                    <h5 className="card-title mb-0">
+                        <Link 
+                            to={`/school/${school._id}`} 
+                            className="text-decoration-none text-dark stretched-link"
+                        >
+                            {school.centre_name}
                         </Link>
-                                
-                                </div>
+                    </h5>
+                </div>
+                
+                <div className="mb-3">
+                    <p className="card-text text-muted small mb-1">
+                        <Icon path={mdiMapMarker} size={0.6} className="me-1" />
+                        {school.centre_address}
+                    </p>
+                    <p className="card-text text-muted small">
+                        <Icon path={mdiPhone} size={0.6} className="me-1" />
+                        {school.centre_contact_no}
+                    </p>
+                </div>
 
-                            <div className="col-1">
-                                <div className="btn d-flex justify-content-end">
-                                <Bookmark schoolId={data._id} marked={data.bookmarked} />
-                                </div>
-                            </div>
-                        </div>
-                        
-                        
-                    </div>
-                    <div className="card-footer p-3 bg-secondary">
-                        <div className="d-flex justify-content-between">
-                            <a className="text-muted text-decoration-none" href={`tel:+65${data.centre_contact_no}}`} rel="noreferrer">
-                                {`📞 ${data.centre_contact_no}`}
-                            </a>
-                            {data.centre_website !== "na" && <a className="text-muted  text-decoration-none" href={`https://${data.centre_website}`} rel="noreferrer" target="_blank">
-                                Website <Icon size={0.8} path={mdiOpenInNew} />
-                            </a>}
-                        </div>
-                    </div>
-                </div>
-                </div>
-                    
+                {school.spark_certified.toLowerCase() !== "no" && (
+                    <span className="badge bg-success me-1">SPARK Certified</span>
+                )}
+                {school.provision_of_transport.toLowerCase() !== "no" && (
+                    <span className="badge bg-info me-1">Transport Available</span>
+                )}
             </div>
         </div>
-        
-            
-            
-        
      );
 }
  

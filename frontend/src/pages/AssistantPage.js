@@ -1,6 +1,8 @@
-import Navigationbar from "../components/navigation/Navigationbar";
 import React, { useState, useEffect, useRef } from "react";
 import AiModal from "../components/assistant/AiModal";
+import Sidebar from "../components/navigation/Sidebar";
+import { Icon } from "@mdi/react";
+import { mdiSend, mdiCreation } from "@mdi/js";
 
 const AssistantPage = () => {
   const [messages, setMessages] = useState([]);
@@ -69,59 +71,93 @@ const AssistantPage = () => {
     if (e.key === "Enter") sendMessage(input);
   };
 
+  const handleSubmit = () => {
+    sendMessage(input);
+  };
+
   return (
-    <div className="assistant">
-      <Navigationbar />
-
-      {/* Error Message */}
-      {error && (
-        <p className="text-center mt-5 text-danger">
-          Sorry, AI Assistant is temporarily unavailable. Please try again later.
-        </p>
-      )}
-
-      {/* Chat Interface */}
-      {!error && connected && (
-        <div className="container d-flex flex-column vh-100 border rounded bg-light">
-          {/* Messages Container (Scrollable without visible scrollbar) */}
-          <div className="flex-grow-1 overflow-hidden p-3 d-flex flex-column">
-            {messages.map((m, index) => (
-              <div
-                key={index}
-                className={`mb-2 p-3 rounded w-75 ${
-                  m.role === "AI" ? "bg-secondary text-black align-self-start" : "bg-dark text-white align-self-end"
-                }`}
-              >
-                {m.message}
-              </div>
-            ))}
-            {loading && (
-              <div className="d-flex justify-content-center align-items-center">
-                <div className="spinner-border text-primary" role="status"></div>
-                <span className="ms-2">Thinking...</span>
-              </div>
-            )}
-            <div ref={messagesEndRef} />
+    <div className="layout-container">
+      <Sidebar />
+      <main className="main-content assistant-page">
+        {error && (
+          <div className="alert alert-danger text-center m-4" role="alert">
+            Sorry, AI Assistant is temporarily unavailable. Please try again later.
           </div>
+        )}
 
-          {/* Fixed Input Box */}
-          <div className="d-flex align-items-center border-top p-2 bg-white position-sticky bottom-0 w-100">
-            <input
-              type="text"
-              className="form-control me-2"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask me anything..."
-              disabled={loading}
-              onKeyDown={handleKeyPress}
-            />
-            <AiModal showModal={showRec} setShowModal={setShowRec} sendMessage={sendMessage} />
-            <button className="btn btn-primary" onClick={() => sendMessage(input)} disabled={loading}>
-              Send
-            </button>
+        {!error && connected && (
+          <div className="chat-container">
+            {/* Welcome Message */}
+            <div className="welcome-banner">
+              <h1 className="display-6 mb-3">AI Assistant</h1>
+              <p className="text-muted">Get personalized help finding the perfect preschool for your child</p>
+            </div>
+
+            {/* Messages Area */}
+            <div className="messages-container">
+              {messages.map((m, index) => (
+                <div
+                  key={index}
+                  className={`message ${m.role === "AI" ? "ai" : "user"}`}
+                >
+                  {m.role === "AI" && (
+                    <div className="avatar">
+                      <Icon path={mdiCreation} size={1} />
+                    </div>
+                  )}
+                  <div className="message-content">
+                    {m.message}
+                  </div>
+                </div>
+              ))}
+              
+              {loading && (
+                <div className="message ai">
+                  <div className="avatar">
+                    <Icon path={mdiCreation} size={1} />
+                  </div>
+                  <div className="message-content typing">
+                    <div className="typing-indicator">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </div>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+
+            {/* Input Area */}
+            <div className="chat-input-container">
+              <div className="input-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Ask me anything..."
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}
+                />
+                <AiModal 
+                  showModal={showRec}
+                  setShowModal={setShowRec}
+                  sendMessage={sendMessage}
+                />
+                <button 
+                  className="btn btn-primary d-flex align-items-center"
+                  onClick={handleSubmit}
+                  disabled={loading || !input.trim()}
+                >
+                  <Icon path={mdiSend} size={1} />
+                </button>
+              </div>
+            </div>
+
+            
           </div>
-        </div>
-      )}
+        )}
+      </main>
     </div>
   );
 };

@@ -20,9 +20,8 @@ const Home = () => {
             const result = await axios.get(ENDPOINT, {withCredentials: true});
             if (result.status === 200) {
                 const data = result.data;
-                // console.log(data)
-                dispatch(loadSchools(data)); 
-                // setFiltered(data); // 
+                console.log(data)
+                dispatch(loadSchools(data));
             }
         } catch (err) {
             console.log("Error fetching data:", err);
@@ -34,28 +33,55 @@ const Home = () => {
     }, [schools])
 
     useEffect(() => {
-        dispatch(removeSchools()); // Clears Redux state before fetching new data
+        dispatch(removeSchools());
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    return ( 
-        <div>            
-            {schools.length > 0 ?
-            <>
-            <Searchbar data={schools} setFiltered={setFiltered} />
+    return (
+        <div>
+            {schools.length > 0 ? (
+                <>
+                    <div className="hero-section">
+                        <div className="container text-center">
+                            <h1 className="display-4 mb-3">Find Your Perfect Preschool</h1>
+                            <p className="lead mb-4">Discover the best early education centers in Singapore</p>
+                        </div>
+                    </div>
 
-            <div className="mt-3 d-flex justify-content-between align-items-center">
-            <h6>Welcome, {user.username}</h6>
-            <FilterBtn showFilter={showFilter} setShowFilter={setShowFilter} setFiltered={setFiltered} data={schools} />
+                    <div className="container">
+                        <div className="search-container mt-3">
+                            <Searchbar data={schools} setFiltered={setFiltered} />
+                        </div>
 
-            </div>
+                        <div className="d-flex justify-content-between align-items-center mb-4">
+                            <div className="welcome-text">
+                                Welcome back, {user.username}! 
+                                {filtered.length > 0 && 
+                                    <span className="text-muted ms-2">
+                                        Showing {filtered.length} schools
+                                    </span>
+                                }
+                            </div>
+                            <FilterBtn 
+                                showFilter={showFilter} 
+                                setShowFilter={setShowFilter} 
+                                setFiltered={setFiltered} 
+                                data={schools}
+                                className="filter-button" 
+                            />
+                        </div>
 
-            <SchoolsList data={filtered} />
-            </>
-            :
-            <div className="text-center mt-5"><div className="spinner-border" role="status"></div></div>
-             }
+                        <SchoolsList data={filtered} />
+                    </div>
+                </>
+            ) : (
+                <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "60vh" }}>
+                    <div className="spinner-border text-primary" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

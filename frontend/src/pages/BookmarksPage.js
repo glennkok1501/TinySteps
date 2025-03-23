@@ -1,9 +1,9 @@
-import Navigationbar from "../components/navigation/Navigationbar";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import SchoolsList from "../components/school/SchoolsList";
 import { loadSchools, removeSchools } from "../features/school/schoolSlice";
+import Sidebar from "../components/navigation/Sidebar";
 
 const BookmarksPage = () => {
     const ENDPOINT = `http://${window.location.hostname}:8000/schools`;
@@ -38,18 +38,19 @@ const BookmarksPage = () => {
     }, [schools]); // Update bookmarks whenever schools change
 
     return ( 
-        <>
-            <Navigationbar />
-            <div className="container">
-                <div>
+        
+        <div className="layout-container">
+            <Sidebar />
+            <main className="main-content">
+                <div className="container mt-5">
                     {bookmarks.length > 0 ?
                         <SchoolsList data={bookmarks} />
                         :
                         <div className="text-center mt-5">No Bookmarks</div>
                     }
                 </div>
-            </div>
-        </>
+            </main>
+        </div>
     );
 }
 

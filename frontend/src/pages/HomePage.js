@@ -1,16 +1,15 @@
 import Home from "../components/homepage/Home";
-import Navigationbar from "../components/navigation/Navigationbar";
+import Sidebar from "../components/navigation/Sidebar";
 
 const HomePage = () => {
     return ( 
-        <>
-            <Navigationbar />
-            <div className="container">
+        <div className="layout-container">
+            <Sidebar />
+            <main className="main-content">
                 <Home />
-            </div>
-        </>
-        
-     );
+            </main>
+        </div>
+    );
 }
  
 export default HomePage;
