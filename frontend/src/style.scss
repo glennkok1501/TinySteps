@@ -24,15 +24,426 @@ $black:    #000;
 $contrast:      #FF6E2A;
 $background:    #ffdef8;
 
+// Custom brand colors
+$brand-pink: #ffc6db;
+$brand-light-pink: #ffdfea;
+$brand-dark: #2D3436;
+$brand-accent: #FF6B6B;
+
 // color-scheme
-$primary:       #ffc6db;
-$secondary:     #ffdfea;
-$success:       $green;
-$info:          $cyan;
-$warning:       $yellow;
-$danger:        $red;
-$light:         $gray-100;
-$dark:          $gray-600;
+$primary: $brand-pink;
+$secondary: $brand-light-pink;
+$success: $green;
+$info: $cyan;
+$warning: $yellow;
+$danger: $red;
+$light: $gray-100;
+$dark: $brand-dark;
+
+// Sidebar dimensions
+$sidebar-width: 250px;
+$mobile-breakpoint: 768px;
+
+// Layout
+.layout-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  margin-left: $sidebar-width;
+  width: calc(100% - #{$sidebar-width});
+  transition: margin-left 0.3s ease;
+
+  @media (max-width: $mobile-breakpoint) {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+// Sidebar Toggle Button
+.sidebar-toggle {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1040;
+  background: $white;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  color: $brand-dark;
+  
+  @media (max-width: $mobile-breakpoint) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &:hover {
+    background: $gray-100;
+  }
+}
+
+// Mobile Overlay
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1029;
+  
+  @media (max-width: $mobile-breakpoint) {
+    display: block;
+  }
+}
+
+// Sidebar styles
+.sidebar {
+  width: $sidebar-width;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: $white;
+  border-right: 1px solid $gray-200;
+  padding: 2rem 0;
+  z-index: 1030;
+  transition: transform 0.3s ease;
+
+  @media (max-width: $mobile-breakpoint) {
+    transform: translateX(-100%);
+
+    &.open {
+      transform: translateX(0);
+    }
+  }
+
+  .brand {
+    padding: 0 1.5rem;
+    margin-bottom: 2rem;
+    
+    @media (max-width: $mobile-breakpoint) {
+      padding-top: 3rem; // Make room for toggle button
+    }
+    
+    .brand-link {
+      color: $brand-dark;
+      text-decoration: none;
+      font-size: 1.5rem;
+      font-weight: 600;
+      
+      &:hover {
+        color: $brand-accent;
+      }
+    }
+  }
+
+  .nav-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    .nav-item {
+      margin: 0.5rem 0;
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1.5rem;
+        color: $brand-dark;
+        text-decoration: none;
+        transition: all 0.3s ease;
+
+        @media (max-width: $mobile-breakpoint) {
+          padding: 1rem 1.5rem; // Larger touch targets on mobile
+        }
+
+        &:hover, &.active {
+          background: $brand-light-pink;
+          color: $brand-accent;
+        }
+
+        .nav-icon {
+          margin-right: 0.75rem;
+        }
+      }
+    }
+  }
+
+  .sidebar-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid $gray-200;
+  }
+}
+
+// Custom utility classes
+.hero-section {
+  background: linear-gradient(135deg, $brand-light-pink, $brand-pink);
+  padding: 4rem 0;
+  margin-bottom: 2rem;
+  border-radius: 0 0 2rem 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.search-container {
+  background: $white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin: -2rem auto 2rem;
+  max-width: 800px;
+  position: relative;
+  z-index: 1;
+}
+
+.school-card {
+  border: none;
+  border-radius: 1rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.welcome-text {
+  color: $brand-dark;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-button {
+  background: $white;
+  border: 2px solid $brand-pink;
+  color: $brand-dark;
+  border-radius: 0.75rem;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  
+  &:hover {
+    background: $brand-pink;
+    color: $white;
+  }
+}
 
 // import bootstrap styles
-@import '../node_modules/bootstrap/scss/bootstrap.scss'
+@import '../node_modules/bootstrap/scss/bootstrap.scss';
+
+.school-header {
+  background: linear-gradient(135deg, $brand-light-pink, $brand-pink);
+  margin-bottom: 2rem;
+  
+  h1 {
+    color: $brand-dark;
+    font-weight: 600;
+  }
+}
+
+.contact-card, .feature-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.map-container {
+  height: 400px;
+  border: 1px solid $gray-200;
+}
+
+.badge {
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  
+  &.bg-secondary {
+    background-color: $gray-200 !important;
+    color: $gray-700;
+  }
+}
+
+// Update bookmark button styling
+.bookmark-btn {
+  background: $white;
+  border: 2px solid $brand-pink;
+  color: $brand-dark;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  
+  &:hover {
+    background: $brand-pink;
+    color: $white;
+  }
+  
+  &.active {
+    background: $brand-pink;
+    color: $white;
+  }
+}
+
+// Assistant page styles
+.assistant-page {
+    background: $gray-100;
+    min-height: 100vh;
+    padding: 0;
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: $white;
+}
+
+.welcome-banner {
+    background: linear-gradient(135deg, $brand-light-pink, $brand-pink);
+    padding: 2rem;
+    text-align: center;
+    border-bottom: 1px solid $gray-200;
+}
+
+.messages-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: $gray-100;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: $gray-300;
+        border-radius: 3px;
+    }
+}
+
+.message {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    max-width: 80%;
+    
+    &.user {
+        margin-left: auto;
+        flex-direction: row-reverse;
+        
+        .message-content {
+            background: $brand-pink;
+            color: $brand-dark;
+            border-radius: 1rem 1rem 0 1rem;
+        }
+    }
+    
+    &.ai {
+        margin-right: auto;
+        
+        .message-content {
+            background: $gray-100;
+            border-radius: 1rem 1rem 1rem 0;
+        }
+    }
+}
+
+.message-content {
+    padding: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    background: $brand-light-pink;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $brand-dark;
+}
+
+.typing-indicator {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    
+    span {
+        width: 8px;
+        height: 8px;
+        background: $gray-400;
+        border-radius: 50%;
+        animation: typing 1s infinite ease-in-out;
+        
+        &:nth-child(1) { animation-delay: 0.2s; }
+        &:nth-child(2) { animation-delay: 0.4s; }
+        &:nth-child(3) { animation-delay: 0.6s; }
+    }
+}
+
+@keyframes typing {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.chat-input-container {
+    padding: 1rem;
+    background: $white;
+    border-top: 1px solid $gray-200;
+    
+    .input-group {
+        max-width: 900px;
+        margin: 0 auto;
+        
+        .form-control {
+            border-radius: 1.5rem 0 0 1.5rem;
+            border: 2px solid $gray-200;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            
+            &:focus {
+                border-color: $brand-pink;
+                box-shadow: none;
+            }
+        }
+        
+        .btn {
+            border-radius: 0 1.5rem 1.5rem 0;
+            padding: 0.75rem 1.5rem;
+            background: $brand-pink;
+            border: 2px solid $brand-pink;
+            
+            &:hover {
+                background: darken($brand-pink, 5%);
+                border-color: darken($brand-pink, 5%);
+            }
+            
+            &:disabled {
+                background: $gray-300;
+                border-color: $gray-300;
+            }
+        }
+    }
+}

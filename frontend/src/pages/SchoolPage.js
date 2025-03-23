@@ -1,13 +1,13 @@
-import { mdiEmail, mdiPhone } from "@mdi/js";
+import { mdiEmail, mdiPhone, mdiMapMarker } from "@mdi/js";
 import Icon from "@mdi/react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import SchoolDetailsCard from "../components/school/SchoolDetailsCard";
-import Navigationbar from "../components/navigation/Navigationbar";
 import GoogleMapEmbed from "../components/GoogleMapEmbed";
 import Bookmark from "../components/school/Bookmark";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Sidebar from "../components/navigation/Sidebar";
 
 const SchoolPage = () => {
     const { id } = useParams();
@@ -40,52 +40,87 @@ const SchoolPage = () => {
     }
 
     return (
-        <>
-            <Navigationbar />
-
-            <div className="container mt-3">
-                <div className="row">
-                    <div className="col-11">
-                        <h3>{data.centre_name}</h3>
-                        <p>{data.centre_address}</p>
-                    </div>
-                    <div className="col-1">
-                        <div className="btn d-flex justify-content-end">
-                            <Bookmark schoolId={data._id} marked={data.bookmarked} />
+        <div className="layout-container">
+            <Sidebar />
+            <main className="main-content">
+                <div className="school-header">
+                    <div className="container">
+                        <div className="row align-items-center py-4">
+                            <div className="col-md-8">
+                                <h1 className="display-5 mb-2">{data.centre_name}</h1>
+                                <p className="text-muted mb-2">
+                                    <Icon path={mdiMapMarker} size={0.8} className="me-2" />
+                                    {data.centre_address}
+                                </p>
+                                <p className="mb-3">
+                                    <span className="badge bg-warning me-2">
+                                        {data.organisation_description}
+                                    </span>
+                                    {data.spark_certified.toLowerCase() !== "no" && (
+                                        <span className="badge bg-success me-2">SPARK Certified</span>
+                                    )}
+                                    {data.provision_of_transport.toLowerCase() !== "no" && (
+                                        <span className="badge bg-info">Transport Available</span>
+                                    )}
+                                </p>
+                            </div>
+                            {schools.length > 0 && <div className="col-md-4 text-md-end">
+                                <Bookmark schoolId={data._id} marked={data.bookmarked} />
+                            </div>}
                         </div>
                     </div>
                 </div>
 
-                <div className="row">
-                    <div className="col">
-                        <p className="text-muted">Organisation Type: {data.organisation_description}</p>
+                <div className="container py-4">
+                    <div className="row mb-4">
+                        <div className="col-md-6">
+                            <div className="contact-card p-4 bg-white rounded-3 shadow-sm">
+                                <h5 className="mb-3">Contact Information</h5>
+                                <div className="d-flex align-items-center mb-2">
+                                    <Icon path={mdiPhone} size={0.8} className="me-2" />
+                                    <a href={`tel:+65${data.centre_contact_no}`} className="text-decoration-none text-black">
+                                        {data.centre_contact_no}
+                                    </a>
+                                </div>
+                                {data.centre_email_address !== "na" && (
+                                    <div className="d-flex align-items-center">
+                                        <Icon path={mdiEmail} size={0.8} className="me-2" />
+                                        <a href={`mailto:${data.centre_email_address}`} className="text-decoration-none text-black">
+                                            {data.centre_email_address}
+                                        </a>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
                     </div>
-                    <div className="col">
-                        <a className="text-muted me-5" href={`tel:+65${data.centre_contact_no}`} rel="noreferrer">
-                            <Icon path={mdiPhone} size={0.8} /> {data.centre_contact_no}
-                        </a>
-                        {data.centre_email_address !== "na" && (
-                            <a className="text-muted" href={`mailto:${data.centre_email_address}`}>
-                                <Icon path={mdiEmail} size={0.8} /> {data.centre_email_address}
-                            </a>
+
+                    <div className="row g-4">
+                        {data.food_offered !== "na" && (
+                            <div className="col-md-4">
+                                <SchoolDetailsCard title="Food Options" info={data.food_offered} />
+                            </div>
+                        )}
+                        {data.second_languages_offered !== "na" && (
+                            <div className="col-md-4">
+                                <SchoolDetailsCard title="Second Language" info={data.second_languages_offered} />
+                            </div>
+                        )}
+                        {data.gst_regisration !== "na" && (
+                            <div className="col-md-4">
+                                <SchoolDetailsCard title="GST Registration" info={data.gst_regisration} />
+                            </div>
                         )}
                     </div>
-                </div>
 
-                <hr />
-                <h4>Details Available</h4>
-                <div className="row justify-content-center">
-                    {data.food_offered !== "na" && <SchoolDetailsCard title={"Food"} info={data.food_offered} />}
-                    {data.second_languages_offered !== "na" && <SchoolDetailsCard title={"Second Language"} info={data.second_languages_offered} />}
-                    {data.spark_certified !== "na" && <SchoolDetailsCard title={"Spark Certified"} info={data.spark_certified} />}
-                    {data.provision_of_transport !== "na" && <SchoolDetailsCard title={"Transport Provided"} info={data.provision_of_transport} />}
-                    {data.gst_regisration !== "na" && <SchoolDetailsCard title={"GST Registration"} info={data.gst_regisration} />}
+                    <div className="mt-4">
+                        <h4 className="mb-3">Location</h4>
+                        <div className="map-container rounded-3 overflow-hidden shadow-sm">
+                            <GoogleMapEmbed postalCode={data.postal_code} />
+                        </div>
+                    </div>
                 </div>
-
-                <hr />
-                <GoogleMapEmbed postalCode={data.postal_code} />
-            </div>
-        </>
+            </main>
+        </div>
     );
 };
 

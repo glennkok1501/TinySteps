@@ -12,6 +12,7 @@ import stockimage10 from '../../assets/stockimages/stock-image-10.jpg'
 
 
 const ImageHandler = ({height, index}) => {
+
     const images = [
         stockimage0,
         stockimage1,
@@ -28,7 +29,7 @@ const ImageHandler = ({height, index}) => {
     ]
 
     return ( 
-        <img style={{width: "100%", height: height, borderRadius: 15, objectFit: "cover"}} src={images[index]} alt="placeholder" />
+        <img style={{width: "100%", height: height, borderRadius: 5, objectFit: "cover"}} src={images[index]} alt="placeholder" />
      );
 }
  

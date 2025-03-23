@@ -15,7 +15,7 @@ const Searchbar = ({data, setFiltered }) => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setDebouncedText(text);
-        }, 1000);  // Adjust delay as needed
+        }, 1000);
 
         return () => clearTimeout(timer);
     }, [text]);
@@ -37,24 +37,30 @@ const Searchbar = ({data, setFiltered }) => {
             });
     }, [debouncedText]);
 
-    return ( 
-        <div className="input-group mt-4">
-            <div className="input-group-prepend">
-                <span className="input-group-text">
-                    {text.length > 0 ? 
-                    <div onClick={clearSearch}>
-                        <Icon path={mdiClose} size={1} />
-                    </div>
-                     : <Icon path={mdiMagnify} size={1} />}
+    return (
+        <div className="position-relative">
+            <div className="input-group">
+                <span className="input-group-text border-0 bg-transparent">
+                    <Icon path={mdiMagnify} size={1} className="text-muted" />
                 </span>
+                <input 
+                    value={text} 
+                    onChange={(e) => setText(e.target.value)}
+                    type="text" 
+                    className="form-control form-control-lg border-0 shadow-none"
+                    placeholder="Search for preschools by name or location"
+                    aria-label="Search preschools"
+                />
+                {text.length > 0 && (
+                    <button 
+                        className="btn position-absolute end-0 top-50 translate-middle-y me-2 text-muted"
+                        onClick={clearSearch}
+                        aria-label="Clear search"
+                    >
+                        <Icon path={mdiClose} size={0.8} />
+                    </button>
+                )}
             </div>
-            <input 
-                value={text} 
-                onChange={(e) => setText(e.target.value)}
-                type="text" 
-                className="form-control" 
-                placeholder="Search"
-            />
         </div>
     );
 };

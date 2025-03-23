@@ -3,6 +3,9 @@ import Modal from 'react-bootstrap/Modal';
 import FilterRadioBtn from './FilterRadioBtn';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Icon } from '@mdi/react';
+import { mdiFilter } from '@mdi/js';
+import Form from 'react-bootstrap/Form';
 
 const FilterBtn = ({showFilter, setShowFilter, setFiltered, data}) => {
 
@@ -45,9 +48,22 @@ const FilterBtn = ({showFilter, setShowFilter, setFiltered, data}) => {
     
     return ( 
         <>
-            <Button onClick={() => setShowFilter(true)}>
-                Filter
-            </Button>
+            <button 
+                className={`filter-button ${showFilter ? 'active' : ''}`}
+                onClick={() => setShowFilter(!showFilter)}
+                aria-expanded={showFilter}
+                aria-label="Toggle filters"
+            >
+                <Icon 
+                    path={mdiFilter} 
+                    size={0.9} 
+                    className="me-2"
+                />
+                Filters
+                <span className="filter-count ms-2">
+                    {showFilter ? '×' : '+'}
+                </span>
+            </button>
             <Modal
              onHide={handleClose}
                 show={showFilter}

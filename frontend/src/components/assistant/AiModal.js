@@ -53,7 +53,11 @@ const AiModal = ({ showModal, setShowModal, sendMessage }) => {
 
   return (
     <>
-      <button className="btn btn-secondary me-2" onClick={() => setShowModal(true)}>
+      <button 
+        className="btn btn-outline-secondary"
+        onClick={() => setShowModal(true)}
+        title="Open recommendation form"
+      >
         <Icon path={mdiCreation} size={1} />
       </button>
 
