@@ -20,6 +20,12 @@ const post_review = async (req, res) => {
         const userId = verifyJWT(req.cookies.jwt).id
         const {rating, comment, schoolId} = req.body
 
+        const existingReview = await Review.findOne({userId, schoolId})
+
+        if (existingReview) {
+            return res.status(400).send("You have already reviewed this school")
+        }
+
         const newReview = new Review({rating, comment, userId, schoolId})
 
         const result = await newReview.save()
