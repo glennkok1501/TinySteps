@@ -59,11 +59,15 @@ init()
 // imported routes
 const schoolRoutes = require('./api/routes/schoolRoute')
 const authRoutes = require('./api/routes/authRoute')
+const reviewRoutes = require("./api/routes/reviewRoute")
 
 // routes
 app.use('/schools', schoolRoutes)
 
 app.use('/auth', authRoutes)
+
+app.use('/reviews', reviewRoutes)
+
 
 
 // unknown requests

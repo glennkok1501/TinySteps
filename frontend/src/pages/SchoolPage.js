@@ -8,6 +8,9 @@ import Bookmark from "../components/school/Bookmark";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Sidebar from "../components/navigation/Sidebar";
+import ReviewsList from "../components/reviews/ReviewsList";
+import ReviewBtn from "../components/reviews/ReviewBtn";
+import ReviewSection from "../components/reviews/ReviewSection";
 
 const SchoolPage = () => {
     const { id } = useParams();
@@ -111,6 +114,9 @@ const SchoolPage = () => {
                             </div>
                         )}
                     </div>
+                    
+                    {/* Reviews Section */}
+                    <ReviewSection schoolId={id} />
 
                     <div className="mt-4">
                         <h4 className="mb-3">Location</h4>
