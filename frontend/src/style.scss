@@ -550,3 +550,193 @@ $mobile-breakpoint: 768px;
     color: $red;
     font-size: 0.9rem;
 }
+
+// Reviews Section Styles
+.reviews-section {
+    margin: 3rem 0;
+    padding: 2rem 0;
+    background: $white;
+    border-radius: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+    .reviews-header {
+        padding: 0 2rem;
+        margin-bottom: 2rem;
+
+        h3 {
+            color: $brand-dark;
+            font-weight: 600;
+            margin: 0;
+            margin-bottom: 0.25rem;
+        }
+
+        .reviews-count {
+            color: $gray-600;
+            font-size: 0.95rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            
+            .star-icon {
+                margin-right: 0.25rem;
+            }
+        }
+    }
+
+    .reviews-container {
+        position: relative;
+        padding: 0 1rem;
+
+        .reviews-scroll {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            gap: 1.5rem;
+            padding: 1rem 0;
+            scrollbar-width: none; // Firefox
+            -ms-overflow-style: none; // IE and Edge
+            &::-webkit-scrollbar {
+                display: none; // Chrome, Safari, Opera
+            }
+        }
+
+        .scroll-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: $white;
+            border: 1px solid $gray-200;
+            color: $brand-dark;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+            &:hover {
+                background: $brand-light-pink;
+                border-color: $brand-pink;
+                color: $brand-accent;
+            }
+
+            &.left {
+                left: 0;
+            }
+
+            &.right {
+                right: 0;
+            }
+
+            &.hidden {
+                display: none;
+            }
+        }
+    }
+}
+
+.review-card {
+    width: 300px;
+    height: 250px;
+    background: $white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid $gray-200;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .review-header {
+        flex-shrink: 0;
+        margin-bottom: 0.75rem;
+
+        .reviewer-info {
+            .reviewer-name {
+                font-weight: 600;
+                color: $brand-dark;
+                margin: 0;
+                font-size: 1.1rem;
+                line-height: 1.2;
+            }
+
+            .reviewer-email {
+                font-size: 0.8rem;
+                color: $gray-600;
+                display: block;
+                margin-top: 0.25rem;
+            }
+        }
+    }
+
+    .review-rating {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        margin-bottom: 0.75rem;
+        flex-shrink: 0;
+
+        .star {
+            color: $yellow;
+        }
+    }
+
+    .review-content-wrapper {
+        position: relative;
+        flex: 1;
+        min-height: 0; // Important for Firefox
+
+        .review-content {
+            height: 100%;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+            padding-bottom: 2rem; // Space for date
+            margin: 0;
+            color: $gray-700;
+            font-size: 0.95rem;
+            line-height: 1.5;
+
+            &::-webkit-scrollbar {
+                width: 4px;
+            }
+
+            &::-webkit-scrollbar-track {
+                background: $gray-100;
+                border-radius: 2px;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background: $gray-300;
+                border-radius: 2px;
+            }
+        }
+
+        .review-date {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            font-size: 0.8rem;
+            color: $gray-600;
+            background: linear-gradient(transparent, $white 50%);
+            padding: 0;
+            width: 100%;
+            text-align: right;
+        }
+    }
+}

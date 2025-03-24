@@ -8,8 +8,6 @@ import Bookmark from "../components/school/Bookmark";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Sidebar from "../components/navigation/Sidebar";
-import ReviewsList from "../components/reviews/ReviewsList";
-import ReviewBtn from "../components/reviews/ReviewBtn";
 import ReviewSection from "../components/reviews/ReviewSection";
 
 const SchoolPage = () => {
@@ -18,6 +16,11 @@ const SchoolPage = () => {
 
     // Initialize state as null (not undefined)
     const [data, setData] = useState(null);
+
+    // Scroll to top when component mounts
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     // First, try to get school data from Redux store
     useEffect(() => {

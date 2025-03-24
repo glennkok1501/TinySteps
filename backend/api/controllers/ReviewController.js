@@ -23,8 +23,9 @@ const post_review = async (req, res) => {
         const newReview = new Review({rating, comment, userId, schoolId})
 
         const result = await newReview.save()
+        const populatedReview = await Review.findById(result._id).populate("userId", "username email")
 
-        res.send(result)
+        res.send(populatedReview)
 
     }
 
