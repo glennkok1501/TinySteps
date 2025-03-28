@@ -1,3 +1,6 @@
+# TO RUN SERVER
+# uvicorn server:app --port 8080 --reload
+
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 import ollama
 import json
