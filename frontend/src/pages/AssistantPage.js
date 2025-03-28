@@ -71,6 +71,52 @@ const AssistantPage = () => {
     sendMessage(input);
   };
 
+  const formatMessage = (message) => {
+    // Split message into paragraphs
+    const paragraphs = message.split('\n\n');
+    
+    return paragraphs.map((paragraph, idx) => {
+      // Check if paragraph contains any kind of list items (numbered or bullet)
+      if (paragraph.match(/^[\d*]+[\.\s]/m)) {
+        // Split into list items by either number or asterisk at start of line
+        const items = paragraph.split(/\n(?=[\d*]+[\.\s])/);
+        return (
+          <ul key={idx} className="formatted-list">
+            {items.map((item, itemIdx) => (
+              <li key={itemIdx}>
+                {formatInlineText(item.replace(/^[\d*]+[\.\s]\s*/, ''))}
+              </li>
+            ))}
+          </ul>
+        );
+      }
+      
+      // Return formatted paragraph
+      return <p key={idx}>{formatInlineText(paragraph)}</p>;
+    });
+  };
+
+  const formatInlineText = (text) => {
+    // Split the text into segments that need different formatting
+    const segments = text.split(/(\*\*.*?\*\*|\[.*?\]\(.*?\))/g);
+    
+    return segments.map((segment, idx) => {
+      // Handle bold text
+      if (segment.startsWith('**') && segment.endsWith('**')) {
+        return <strong key={idx}>{segment.slice(2, -2)}</strong>;
+      }
+      
+      // Handle links
+      const linkMatch = segment.match(/\[(.*?)\]\((.*?)\)/);
+      if (linkMatch) {
+        return <a key={idx} href={linkMatch[2]} target="_blank" rel="noopener noreferrer">{linkMatch[1]}</a>;
+      }
+      
+      // Regular text
+      return segment;
+    });
+  };
+
   return (
     <div className="layout-container">
       <Sidebar />
@@ -103,7 +149,7 @@ const AssistantPage = () => {
                     </div>
                   )}
                   <div className="message-content">
-                    {m.message}
+                    {m.role === "AI" ? formatMessage(m.message) : m.message}
                   </div>
                 </div>
               ))}
