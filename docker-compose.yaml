@@ -29,6 +29,14 @@ services:
     networks:
       - tinysteps-network
 
+  mail:
+    build: ./mail
+    restart: always
+    ports:
+      - "8081:8081"
+    networks:
+      - tinysteps-network
+
   database:
     image: mongo:latest
     container_name: TinyStepsDB
