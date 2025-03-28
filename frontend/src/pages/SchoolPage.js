@@ -8,6 +8,7 @@ import Bookmark from "../components/school/Bookmark";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Sidebar from "../components/navigation/Sidebar";
+import ReviewSection from "../components/reviews/ReviewSection";
 
 const SchoolPage = () => {
     const { id } = useParams();
@@ -15,6 +16,11 @@ const SchoolPage = () => {
 
     // Initialize state as null (not undefined)
     const [data, setData] = useState(null);
+
+    // Scroll to top when component mounts
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     // First, try to get school data from Redux store
     useEffect(() => {
@@ -111,6 +117,9 @@ const SchoolPage = () => {
                             </div>
                         )}
                     </div>
+                    
+                    {/* Reviews Section */}
+                    <ReviewSection schoolId={id} />
 
                     <div className="mt-4">
                         <h4 className="mb-3">Location</h4>
