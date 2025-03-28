@@ -24,4 +24,4 @@ EXPOSE 8080
 HEALTHCHECK --interval=10s --timeout=5s --retries=5 CMD curl -f http://localhost:11434 || exit 1
 
 # Start Ollama, wait for it to initialize, pull the model, then start FastAPI
-CMD ["sh", "-c", "ollama serve & sleep 5 && ollama pull llama3 && uvicorn server:app --host 0.0.0.0 --port 8080 --reload"]
+CMD ["sh", "-c", "ollama serve & sleep 5 && ollama pull gemma3 && uvicorn server:app --host 0.0.0.0 --port 8080 --reload"]

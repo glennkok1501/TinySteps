@@ -84,7 +84,7 @@ async def websocket_endpoint(websocket: WebSocket):
                 """
 
                 # Use asyncio.to_thread to avoid blocking the event loop
-                response = await asyncio.to_thread(ollama.chat, model="llama3", messages=user_conversations[user_id] + [{"role": "system", "content": ai_prompt}])
+                response = await asyncio.to_thread(ollama.chat, model="gemma3", messages=user_conversations[user_id] + [{"role": "system", "content": ai_prompt}])
                 ai_response = response.get("message", {}).get("content", "Sorry, I couldn't generate a response.")
 
                 # Append the AI's response to the conversation history for this user
