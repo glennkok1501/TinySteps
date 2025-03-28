@@ -31,6 +31,14 @@ const userSchema = new Schema({
             type: String, 
             ref: "School"
         }]
+    },
+    verified: {
+        type: Boolean,
+        default: false
+    },
+    verification_string: {
+        type: String,
+        default: ()=>uuidv4()
     }
     
 },{timestamps: true});
