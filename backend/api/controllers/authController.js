@@ -134,6 +134,14 @@ const post_verify_user = async (req, res) => {
     
     // console.log(user)
     if (user) {
+
+        // check if user is already verified
+        if (user.verified) {
+            res.send({"auth":false})
+            return
+        }
+
+
         user.verified = true
         const updated_user = await user.save()
 
