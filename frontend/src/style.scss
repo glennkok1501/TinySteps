@@ -550,3 +550,55 @@ $mobile-breakpoint: 768px;
     color: $red;
     font-size: 0.9rem;
 }
+
+// Verification page specific styles
+.verification-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    transition: all 0.3s ease;
+    
+    &.pending {
+        background: $brand-light-pink;
+        color: $brand-pink;
+        animation: pulse 2s infinite;
+    }
+    
+    &.success {
+        background: lighten($green, 45%);
+        color: $green;
+    }
+    
+    &.error {
+        background: lighten($red, 45%);
+        color: $red;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.progress {
+    background-color: $gray-200;
+    border-radius: 2px;
+    
+    .progress-bar {
+        background-color: $brand-pink;
+    }
+}
