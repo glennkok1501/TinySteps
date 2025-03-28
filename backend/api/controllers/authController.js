@@ -1,10 +1,9 @@
 require('dotenv').config()
 const User = require('../../models/UserModel')
-const express = require('express')
-const app = express()
 const jwt = require('jsonwebtoken')
 const authMiddleware = require('../../config/AuthMiddleware')
 const bcrypt = require('bcrypt');
+const axios = require('axios');
 
 // create token
 const createToken = (id, user, role) => {
@@ -21,7 +20,15 @@ const login_post = async (req, res) => {
         { email: email }
     ]})
     .then((user) => {
+
         if (user) {
+
+            // check if user is verified
+            if (!user.verified) {
+                res.send({"auth":false, "error": "Please verify account"})
+                return
+            }
+
             bcrypt.compare(password, user.password)
                 .then((auth) => {
                     if (auth){
@@ -76,13 +83,19 @@ const signup_post = async (req, res) => {
         const user = await User.create({username, email, password, role})
         // console.log(user)
         if (user) {
-            const token = createToken(user._id, user.username, role)
-            res.cookie('jwt', token, {
-                httpOnly: true,
-                maxAge: 3 * 24 * 60 * 60 * 1000
-            });
-            res.send({"auth":true})
+            
+            data = {
+                "receiver": user.email,
+                "subject": "Tiny Steps Verification",
+                "body": `Please verify your account using this link ${process.env.FRONTEND}/verify/${user.verification_string}`
+            }
+            const email_result = await axios.post(`${process.env.MAIL}/send-email`, data)
+            if (email_result.data.result) {
+                res.send({"auth":true})
+                return
+            }
         }
+        res.send({"auth":false})
     }
     catch (err) {
         console.log(err)
@@ -115,9 +128,32 @@ const logout_get = (req, res) => {
     res.status(200).send("Logout")
 }
 
+const post_verify_user = async (req, res) => {
+    const verification_string = req.body.verification_string
+    const user = await User.findOne({verification_string})
+    
+    // console.log(user)
+    if (user) {
+        user.verified = true
+        const updated_user = await user.save()
+
+        if (updated_user) {
+            const token = createToken(user._id, user.username, user.role)
+            res.cookie('jwt', token, {
+                httpOnly: true,
+                maxAge: 3 * 24 * 60 * 60 * 1000
+            });
+            res.send({"auth":true})
+            return
+        }
+    }
+    res.send({"auth":false})
+}
+
 module.exports = {
     login_post,
     signup_post,
     verify_get,
-    logout_get
+    logout_get,
+    post_verify_user
 }

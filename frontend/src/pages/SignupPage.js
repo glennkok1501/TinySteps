@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Icon } from '@mdi/react';
 import { mdiAccount, mdiEmail, mdiLock } from '@mdi/js';
@@ -13,7 +13,7 @@ const SignupPage = () => {
     const [emailErr, setEmailErr] = useState('');
     const [passwordErr, setPasswordErr] = useState('');
     const [isPending, setIsPending] = useState(false);
-    const history = useHistory();
+    const [info, setInfo] = useState('')
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -21,17 +21,20 @@ const SignupPage = () => {
 
         axios.post(`${process.env.REACT_APP_API}/auth/signup`, { username, email, password }, { withCredentials: true })
             .then((res) => {
-                console.log(res.data);
+                // console.log(res.data);
                 if (res.data.auth) {
                     setUsernameErr('');
                     setEmailErr('');
                     setPasswordErr('');
-                    history.push('/');
+                    setInfo("Verification email has be sent")
+                    setIsPending(false)
+
                 } else {
                     setIsPending(false);
                     setUsernameErr(res.data.error.username);
                     setEmailErr(res.data.error.email);
                     setPasswordErr(res.data.error.password);
+                    setInfo('')
                 }
             })
             .catch((err) => console.log(err));
@@ -49,6 +52,8 @@ const SignupPage = () => {
                     {usernameErr && <div className="alert alert-danger" role="alert">{usernameErr}</div>}
                     {emailErr && <div className="alert alert-danger" role="alert">{emailErr}</div>}
                     {passwordErr && <div className="alert alert-danger" role="alert">{passwordErr}</div>}
+                    {info && <div className="alert alert-info" role="alert">{info}</div>}
+
 
                     <form onSubmit={handleSubmit}>
                         <div className="mb-4">
