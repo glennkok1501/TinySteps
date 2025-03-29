@@ -37,14 +37,14 @@ services:
     networks:
       - tinysteps-network
 
-  database:
-    image: mongo:latest
-    container_name: TinyStepsDB
-    restart: always
-    ports:
-      - "27017:27017"
-    networks:
-      - tinysteps-network
+  # database:
+  #   image: mongo:latest
+  #   container_name: TinyStepsDB
+  #   restart: always
+  #   ports:
+  #     - "27017:27017"
+  #   networks:
+  #     - tinysteps-network
 
 networks:
   tinysteps-network:
